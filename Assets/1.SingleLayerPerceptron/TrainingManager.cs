@@ -19,7 +19,6 @@ using Random = UnityEngine.Random;
 //在 Unity 场景中随机生成 200 个小球，根据你设定的“秘密直线”为它们涂上正确的颜色，
 //然后在 Update 中让感知机不断学习，并通过 LineRenderer 将感知机的“思考过程”实时画出来。
 [RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(Perceptron))]
 public class TrainingManager : MonoBehaviour
 {
     [Header("References")]

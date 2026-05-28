@@ -6,7 +6,7 @@ using UnityEngine;
 在线上方的点是“蓝色”，在线下方的是“红色”。感知机的任务：它一开始不知道这条线在哪，
 它要通过不断“猜”和“被打脸修正”，最终画出一条一模一样的分割线。
 */
-public class Perceptron : MonoBehaviour
+public class Perceptron
 {
     // 输入有两个：X 坐标和 Y 坐标，外加一个偏置项（通常固定为 1）
     public float[] weights = new float[3];
