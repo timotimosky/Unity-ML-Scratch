@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TopologyVisualizer : MonoBehaviour
 {
-    [Header("References")]
+
     public TrainingManager trainingManager;// 引用你的管理器获取当前训练索引
 
     [Header("Neuron Visuals")]
@@ -30,6 +30,7 @@ public class TopologyVisualizer : MonoBehaviour
 
     void Start()
     {
+        trainingManager = FindObjectOfType<TrainingManager>();
         // 自动获取权重连线的两端位置并设置
         SetupLinePositions();
 

@@ -48,7 +48,7 @@ public class TrainingManager : MonoBehaviour
     }
 
     private List<TrainingPoint> pointsList = new List<TrainingPoint>();
-    void Start()
+    protected virtual void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
 
@@ -62,14 +62,21 @@ public class TrainingManager : MonoBehaviour
 
         // 初始化生成训练数据
         CreateTrainingData();
+        InitModel();
+    }
 
-        // 实验1: 使用激活函数A (sum >= 0 → 1)
+    protected virtual void InitModel()
+    {        // 实验1: 使用激活函数A (sum >= 0 → 1)
         curPer = new Perceptron();
-       // curPer.SetActiveAction(sum => sum >= 0 ? 1 : -1);
+
+        // curPer.SetActiveAction(sum => sum >= 0 ? 1 : -1);
         // 实验2: 使用激活函数B (sum <= 0 → 1)
         curPer.SetActiveAction(sum => sum >= 0 ? 1 : -1);
-
-        //为什么这里不能用<0 。因为
+        // 显式在构造外随机初始化权重（因为非Mono类无法自动执行Start）
+        for (int i = 0; i < curPer.weights.Length; i++)
+        {
+            curPer.weights[i] = UnityEngine.Random.Range(-1f, 1f);
+        }
     }
 
     public Perceptron curPer;
@@ -84,34 +91,16 @@ public class TrainingManager : MonoBehaviour
         currentTrainingIndex = (currentTrainingIndex + 1) % pointsList.Count;
     }
 
-
-
     public int num = 0;
 
     // 在类最上方加一个计数器变量
     private int currentTrainingIndex = 0;
-    void Update()
+    protected virtual void Update()
     {
-        //激活函数是类似如下的一种函数：  f1(sum) = sign(sum) ，将预测值转换为正确和错误标记
-        //如果和为负，则预测为左。否则，它会预测正确。
-        //跟ifRight函数是必须保持一致
-
-        //foreach (var pointToTrain in pointsList)
-        // {
-        //    curPer.Train(pointToTrain.x, pointToTrain.y, pointToTrain.targetOutput, pointToTrain.visualObj);
-        //  }
         num++;
         if (num % 17 == 0)
-            TestActivationImpactOld();
-        // 强行让权重每帧在 -2 到 +2 之间疯狂随机，测试线条性能
-       // curPer.weights[0] = Random.Range(-2f, 2f);
-       // curPer.weights[1] = Random.Range(-2f, 2f);
-       // curPer.weights[2] = Random.Range(-2f, 2f);
+            ExecuteTraining();
 
-
-        //Debug.Log($"p1 权重: [{curPer.weights[0]:F2}, {curPer.weights[1]:F2}, {curPer.weights[2]:F2}]");
-
-        // 实时更新小球的显示状态：
         // 如果感知机猜对了，小球保持原本的红/蓝
         // 如果感知机猜错了，我们可以让它变成黄色，方便观察
         foreach (var point in pointsList)
@@ -172,6 +161,8 @@ public class TrainingManager : MonoBehaviour
         float Y_need = m0 * X_real + m1;
         return Y_real > Y_need ? 1 : -1;
     }
+    [SerializeField]
+    bool OpenChaos = true;
 
     // 生成随机点并计算正确答案
     void CreateTrainingData()
@@ -183,6 +174,16 @@ public class TrainingManager : MonoBehaviour
             p.y = Random.Range(-spawnRange, spawnRange);
 
             p.targetOutput = ifRight(p.x, p.y);
+
+            if (OpenChaos)
+            {
+                // --- 核心改动：故意制造 5% 的叛徒（噪声点） ---
+                if (Random.value < 0.05f)
+                {
+                    p.targetOutput = -p.targetOutput; // 强行把线上方的球变成红色，线下的变成蓝色
+                }
+            }
+
 
             // 在场景中生成小球
             if (pointPrefab != null)
@@ -199,6 +200,13 @@ public class TrainingManager : MonoBehaviour
             pointsList.Add(p);
         }
     }
+
+    protected virtual void ExecuteTraining()
+    {
+        // 原有的轮询单点训练逻辑
+        TestActivationImpactOld();
+    }
+
 
     // 在屏幕上绘制两条线：感知机的线
     void DrawPerceptronLine()

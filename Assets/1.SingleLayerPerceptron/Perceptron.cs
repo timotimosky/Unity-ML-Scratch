@@ -46,7 +46,7 @@ public class Perceptron
     }
 
     // 3. 训练函数：根据正确答案调整权重
-    public void Train(float x, float y, int target)
+    virtual public void Train(float x, float y, int target)
     {
         int guess = Guess(x, y);
         int error = target - guess; // 误差 = 正确答案 - 预测值

@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7851852476250554b8851b95ed41306b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trainingManager: {fileID: 685306636}
+  trainingManager: {fileID: 0}
   inputXNode: {fileID: 67845187}
   inputYNode: {fileID: 1845718388}
   biasNode: {fileID: 730772685}
@@ -602,9 +602,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685306635}
-  - component: {fileID: 685306637}
-  - component: {fileID: 685306636}
   - component: {fileID: 685306638}
+  - component: {fileID: 685306639}
   m_Layer: 0
   m_Name: Brain
   m_TagString: Untagged
@@ -627,44 +626,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &685306636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685306634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f60c7bebe12cd48b53cb158ec4fe7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointPrefab: {fileID: 4705023302054129251, guid: 34f3fd41456472a419e26e4eaf60ed31,
-    type: 3}
-  lineRenderer: {fileID: 0}
-  totalPoints: 200
-  spawnRange: 5
-  m0: 0.5
-  m1: 1
-  curPer: {fileID: 0}
-  num: 0
---- !u!114 &685306637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685306634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 456648b8eaa447942be9c7206277e33a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weights:
-  - 0
-  - 0
-  - 0
-  learningRate: 0.01
 --- !u!120 &685306638
 LineRenderer:
   serializedVersion: 2
@@ -769,6 +730,28 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &685306639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685306634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90da937b3235f7745a75406a0463beaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointPrefab: {fileID: 4705023302054129251, guid: 34f3fd41456472a419e26e4eaf60ed31,
+    type: 3}
+  lineRenderer: {fileID: 0}
+  totalPoints: 200
+  spawnRange: 5
+  m0: 0.5
+  m1: 1
+  num: 0
+  adalineLR: 0.005
+  enableDecay: 1
 --- !u!1 &724876671
 GameObject:
   m_ObjectHideFlags: 0
